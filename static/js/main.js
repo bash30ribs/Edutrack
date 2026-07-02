@@ -2383,24 +2383,29 @@ window.removeDepartment = async function(dept) {
 function populateDeptDropdowns(departments) {
   const deptOptions = `<option value="">Select Department</option>` + departments.map(d => `<option value="${d}">${d}</option>`).join('');
 
+  const injectAndRestore = (el) => {
+    const cur = el.value;
+    el.innerHTML = deptOptions;
+    if (cur) {
+      if (!departments.includes(cur)) {
+        el.innerHTML += `<option value="${cur}">${cur}</option>`;
+      }
+      el.value = cur;
+    }
+  };
+
   // Fill all named dept dropdowns
   ['addTeacherDept', 'addStudentDept', 'editProfileDept',
    'ttDepartment', 'ttTeacherDepartment', 'ttEditDepartment'].forEach(id => {
     const el = document.getElementById(id);
-    if (el) {
-      const cur = el.value;
-      el.innerHTML = deptOptions;
-      if (cur) el.value = cur; // restore previously selected value
-    }
+    if (el) injectAndRestore(el);
   });
 
   // Also fill any other elements with the dept-dynamic-dropdown class
   document.querySelectorAll('.dept-dynamic-dropdown').forEach(el => {
     if (!el.id || !['addTeacherDept','addStudentDept','editProfileDept',
                      'ttDepartment','ttTeacherDepartment','ttEditDepartment'].includes(el.id)) {
-      const cur = el.value;
-      el.innerHTML = deptOptions;
-      if (cur) el.value = cur;
+      injectAndRestore(el);
     }
   });
 }
@@ -3517,6 +3522,12 @@ initLoginParticles();
     window.populateDeptDropdowns(window.activeDepartments && window.activeDepartments.length ? window.activeDepartments : ['CSE', 'ECE', 'ME', 'CE', 'EEE']);
     const editDept = document.getElementById('ttEditDepartment');
     if (editDept) {
+      if (item.department) {
+        let exists = Array.from(editDept.options).some(opt => opt.value === item.department);
+        if (!exists) {
+           editDept.innerHTML += `<option value="${item.department}">${item.department}</option>`;
+        }
+      }
       editDept.value = item.department || '';
       editDept.addEventListener('change', () => window.updateTeacherDropdown('ttEditDepartment', 'ttEditTeacher'));
     }

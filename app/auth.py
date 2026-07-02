@@ -189,17 +189,20 @@ def request_otp():
         except urllib.error.HTTPError as e:
             err_msg = e.read().decode('utf-8')
             print(f"EmailJS HTTP Error: {err_msg}")
-            print(f"\n\n[WARNING] EmailJS API Error: {err_msg}. Falling back to Admin Outbox. OTP for {identifier} is {otp}\n\n")
         except Exception as e:
             print(f"Failed to send email via EmailJS: {e}")
-            print(f"\n\n[WARNING] Failed to send email via EmailJS: {e}. Falling back to Admin Outbox. OTP for {identifier} is {otp}\n\n")
-    else:
-        print(f"\n\n[WARNING] EmailJS keys missing or user has no email. Falling back to Admin Outbox. OTP for {identifier} is {otp}\n\n")
 
     if email_sent:
         return jsonify({"ok": True, "message": "Success! Please check your email inbox (and spam folder) for your secure 6-digit OTP."})
     else:
-        return jsonify({"ok": True, "message": "OTP generated. Email service is currently offline. Please retrieve your OTP from the Admin System Outbox."})
+        try:
+            with open("local_otp_inbox.txt", "a", encoding="utf-8") as f:
+                f.write(f"[{datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')} UTC] OTP for {identifier} (Role: {user.role}): {otp}\n")
+            print(f"\n\n[WARNING] Email service offline. Wrote OTP to local_otp_inbox.txt. OTP for {identifier} is {otp}\n\n")
+        except Exception as e:
+            print(f"Failed to write to local_otp_inbox.txt: {e}")
+            
+        return jsonify({"ok": True, "message": "OTP generated. Email service is offline. Please open the 'local_otp_inbox.txt' file in your project folder to retrieve your OTP."})
 
 @auth_bp.route("/verify-otp-login", methods=["POST"])
 def verify_otp_login():
