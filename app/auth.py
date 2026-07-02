@@ -157,40 +157,38 @@ def request_otp():
     user.otp_expiry = datetime.utcnow() + timedelta(minutes=5)
     db.session.commit()
 
-    # Send Email via EmailJS API (Bypasses SMTP Blocks)
-    emailjs_service_id = os.environ.get('EMAILJS_SERVICE_ID')
-    emailjs_template_id = os.environ.get('EMAILJS_TEMPLATE_ID')
-    emailjs_public_key = os.environ.get('EMAILJS_PUBLIC_KEY')
+    # Send Email via smtplib (e.g., Gmail with App Password)
+    smtp_server = os.environ.get('SMTP_SERVER', 'smtp.gmail.com')
+    smtp_port = int(os.environ.get('SMTP_PORT', 587))
+    smtp_username = os.environ.get('SMTP_USERNAME')
+    smtp_password = os.environ.get('SMTP_PASSWORD')
     recipient_email = user.email
 
     email_sent = False
-    if emailjs_service_id and emailjs_template_id and emailjs_public_key and recipient_email:
-        import urllib.request
-        import urllib.error
-        import json
+    if smtp_username and smtp_password and recipient_email:
+        import smtplib
+        from email.mime.text import MIMEText
+        from email.mime.multipart import MIMEMultipart
+        
         try:
-            payload = {
-                "service_id": emailjs_service_id,
-                "template_id": emailjs_template_id,
-                "user_id": emailjs_public_key,
-                "template_params": {
-                    "to_email": recipient_email,
-                    "otp_code": otp
-                }
-            }
-            req = urllib.request.Request(
-                'https://api.emailjs.com/api/v1.0/email/send',
-                data=json.dumps(payload).encode('utf-8'),
-                headers={'Content-Type': 'application/json'}
-            )
-            with urllib.request.urlopen(req, timeout=10) as response:
-                print(f"EmailJS Response: {response.status}")
-                email_sent = True
-        except urllib.error.HTTPError as e:
-            err_msg = e.read().decode('utf-8')
-            print(f"EmailJS HTTP Error: {err_msg}")
+            msg = MIMEMultipart()
+            msg['From'] = smtp_username
+            msg['To'] = recipient_email
+            msg['Subject'] = "Your EduTrack OTP Code"
+            
+            body = f"Hello {user.display_name},\n\nYour secure OTP for EduTrack is: {otp}\n\nThis OTP is valid for 5 minutes.\n\nEduTrack Security System"
+            msg.attach(MIMEText(body, 'plain'))
+            
+            server = smtplib.SMTP(smtp_server, smtp_port)
+            server.starttls()
+            server.login(smtp_username, smtp_password)
+            server.send_message(msg)
+            server.quit()
+            
+            print(f"SMTP Email sent successfully to {recipient_email}")
+            email_sent = True
         except Exception as e:
-            print(f"Failed to send email via EmailJS: {e}")
+            print(f"Failed to send email via SMTP: {e}")
 
     if email_sent:
         return jsonify({"ok": True, "message": "Success! Please check your email inbox (and spam folder) for your secure 6-digit OTP."})
@@ -202,7 +200,7 @@ def request_otp():
         except Exception as e:
             print(f"Failed to write to local_otp_inbox.txt: {e}")
             
-        return jsonify({"ok": True, "message": "OTP generated. Email service is offline. Please open the 'local_otp_inbox.txt' file in your project folder to retrieve your OTP."})
+        return jsonify({"ok": True, "message": "OTP generated. Email service is offline (Check .env). Please open the 'local_otp_inbox.txt' file in your project folder to retrieve your OTP."})
 
 @auth_bp.route("/verify-otp-login", methods=["POST"])
 def verify_otp_login():
