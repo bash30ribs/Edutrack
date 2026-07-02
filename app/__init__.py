@@ -5,6 +5,7 @@ from flask import Flask, send_from_directory
 from flask_migrate import Migrate
 from werkzeug.security import generate_password_hash
 from dotenv import load_dotenv
+from datetime import date
 
 # Load environment variables from .env file
 load_dotenv()
