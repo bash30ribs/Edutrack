@@ -218,9 +218,11 @@ def create_app(config_name=None):
     app.register_blueprint(timetable_bp, url_prefix="/api/timetable")
     app.register_blueprint(ews_bp, url_prefix="/api/ews")
 
-    @app.route("/api/admin/otp-logs", methods=["GET"])
-    def legacy_otp_logs():
-        from app.auth import get_otp_logs
+    @app.route("/healthz")
+    @app.route("/health")
+    def health_check():
+        return jsonify({"status": "healthy", "service": "edutrack"}), 200
+
     @app.route("/api/system/reset-db", methods=["GET", "POST"])
     def api_reset_db():
         """Reset database back to original starting state with default accounts."""
@@ -267,7 +269,11 @@ def create_app(config_name=None):
             for cmd in ["db", "migrate", "upgrade", "init", "alembic"]
         )
         if not is_migration_command:
-            db.create_all()
+            try:
+                db.create_all()
+            except Exception as e:
+                db.session.rollback()
+                print(f"Error during db.create_all(): {e}")
 
             # --- AUTO-MIGRATE MISSING COLUMNS ---
             try:

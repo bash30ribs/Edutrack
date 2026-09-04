@@ -22,8 +22,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy all application files to container
 COPY . .
 
-# Expose port 5000 for server binding
-EXPOSE 5000
+# Expose port for server binding (10000 for Render default, 5000 for local docker)
+EXPOSE 10000 5000
 
 # Run Gunicorn using our configuration file
 CMD ["gunicorn", "-c", "gunicorn.conf.py", "wsgi:app"]
