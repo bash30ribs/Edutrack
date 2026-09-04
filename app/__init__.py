@@ -1,7 +1,7 @@
 """Flask application factory. Initializes extensions and registers blueprints."""
 
 import os
-from flask import Flask, send_from_directory
+from flask import Flask, send_from_directory, jsonify
 from flask_migrate import Migrate
 from werkzeug.security import generate_password_hash
 from dotenv import load_dotenv
@@ -31,141 +31,145 @@ migrate = Migrate()
 
 def seed_database(app):
     """One-time demo data; password for all demo users: demo123"""
-    if User.query.first():
-        return
+    try:
+        if User.query.first():
+            return
 
-    ph = generate_password_hash("demo123")
+        ph = generate_password_hash("demo123")
 
-    parent = Parent(
-        name="Mrs. Sharma",
-        email="parent@edutrack.com",
-        phone="+91 90000 00001",
-    )
-    db.session.add(parent)
-    db.session.flush()
+        parent = Parent(
+            name="Mrs. Sharma",
+            email="parent@edutrack.com",
+            phone="+91 90000 00001",
+        )
+        db.session.add(parent)
+        db.session.flush()
 
-    teacher = Teacher(
-        name="Dr. Sarah Chen",
-        email="teacher@edutrack.com",
-        department="Computer Science",
-        monthly_salary=85000.0,
-    )
-    db.session.add(teacher)
-    db.session.flush()
+        teacher = Teacher(
+            name="Dr. Sarah Chen",
+            email="teacher@edutrack.com",
+            department="Computer Science",
+            monthly_salary=85000.0,
+        )
+        db.session.add(teacher)
+        db.session.flush()
 
-    student = Student(
-        roll_no="CS21A001",
-        name="Alex Kumar",
-        email="student@edutrack.com",
-        department="CSE",
-        parent_id=parent.id,
-        is_placed=True,
-    )
-    db.session.add(student)
-    db.session.flush()
+        student = Student(
+            roll_no="CS21A001",
+            name="Alex Kumar",
+            email="student@edutrack.com",
+            department="CSE",
+            parent_id=parent.id,
+            is_placed=True,
+        )
+        db.session.add(student)
+        db.session.flush()
 
-    t1 = Teacher(name="Andrew Tate", email="andrew33@gmail.com", department="AIML", monthly_salary=40000.0)
-    t2 = Teacher(name="Hrishav Bisht", email="hrishav888@gmail.com", department="AIML", monthly_salary=90000.0)
-    t3 = Teacher(name="Hrishav Hrishav Hrishav", email="bishthrishav@gmail.com", department="CSE", monthly_salary=100000.0)
-    p1 = Parent(name="SANJAY GAIKWAD", email="sanjay@gmail.com", phone="+91 8373711116")
-    s1 = Student(roll_no="CS21554", name="WILSON GAIKWAD", email="wilsongaikwad@gmail.com", department="AIML")
-    db.session.add_all([t1, t2, t3, p1, s1])
-    db.session.flush()
+        t1 = Teacher(name="Andrew Tate", email="andrew33@gmail.com", department="AIML", monthly_salary=40000.0)
+        t2 = Teacher(name="Hrishav Bisht", email="hrishav888@gmail.com", department="AIML", monthly_salary=90000.0)
+        t3 = Teacher(name="Hrishav Hrishav Hrishav", email="bishthrishav@gmail.com", department="CSE", monthly_salary=100000.0)
+        p1 = Parent(name="SANJAY GAIKWAD", email="sanjay@gmail.com", phone="+91 8373711116")
+        s1 = Student(roll_no="CS21554", name="WILSON GAIKWAD", email="wilsongaikwad@gmail.com", department="AIML")
+        db.session.add_all([t1, t2, t3, p1, s1])
+        db.session.flush()
 
-    db.session.add_all(
-        [
-            User(
-                email="admin@edutrack.com",
-                password_hash=ph,
-                role="admin",
-                display_name="Admin User",
-            ),
-            User(
-                email="teacher@edutrack.com",
-                password_hash=ph,
-                role="teacher",
-                display_name="Dr. Sarah Chen",
-                teacher_id=teacher.id,
-            ),
-            User(
-                email="student@edutrack.com",
-                password_hash=ph,
-                role="student",
-                display_name="Alex Kumar",
+        db.session.add_all(
+            [
+                User(
+                    email="admin@edutrack.com",
+                    password_hash=ph,
+                    role="admin",
+                    display_name="Admin User",
+                ),
+                User(
+                    email="teacher@edutrack.com",
+                    password_hash=ph,
+                    role="teacher",
+                    display_name="Dr. Sarah Chen",
+                    teacher_id=teacher.id,
+                ),
+                User(
+                    email="student@edutrack.com",
+                    password_hash=ph,
+                    role="student",
+                    display_name="Alex Kumar",
+                    student_id=student.id,
+                ),
+                User(
+                    email="parent@edutrack.com",
+                    password_hash=ph,
+                    role="parent",
+                    display_name="Mrs. Sharma",
+                    parent_id=parent.id,
+                ),
+                User(email=t1.email, uid="EMP-AI26AND001", password_hash=ph, role="teacher", display_name=t1.name, teacher_id=t1.id),
+                User(email=t2.email, uid="EMP-AI26HRI001", password_hash=ph, role="teacher", display_name=t2.name, teacher_id=t2.id),
+                User(email=t3.email, uid="EMP-CSE26HRI001", password_hash=ph, role="teacher", display_name=t3.name, teacher_id=t3.id),
+                User(email=p1.email, uid="PAR-26SAN001", password_hash=ph, role="parent", display_name=p1.name, parent_id=p1.id),
+                User(email=s1.email, uid="STU-AIM26WIL001", password_hash=ph, role="student", display_name=s1.name, student_id=s1.id),
+            ]
+        )
+
+        db.session.add(
+            CampusSettings(
+                id=1,
+                lat=app.config["DEFAULT_CAMPUS_LAT"],
+                lng=app.config["DEFAULT_CAMPUS_LNG"],
+                radius_m=app.config["DEFAULT_CAMPUS_RADIUS_M"],
+            )
+        )
+
+        db.session.add_all(
+            [
+                FeeStructure(
+                    program="B.Tech CSE",
+                    item_name="Tuition (annual)",
+                    amount=185000.0,
+                    academic_year="2025-26",
+                ),
+                FeeStructure(
+                    program="B.Tech CSE",
+                    item_name="Lab & facilities",
+                    amount=24000.0,
+                    academic_year="2025-26",
+                ),
+            ]
+        )
+
+        db.session.add(
+            Mark(
                 student_id=student.id,
-            ),
-            User(
-                email="parent@edutrack.com",
-                password_hash=ph,
-                role="parent",
-                display_name="Mrs. Sharma",
-                parent_id=parent.id,
-            ),
-            User(email=t1.email, uid="EMP-AI26AND001", password_hash=ph, role="teacher", display_name=t1.name, teacher_id=t1.id),
-            User(email=t2.email, uid="EMP-AI26HRI001", password_hash=ph, role="teacher", display_name=t2.name, teacher_id=t2.id),
-            User(email=t3.email, uid="EMP-CSE26HRI001", password_hash=ph, role="teacher", display_name=t3.name, teacher_id=t3.id),
-            User(email=p1.email, uid="PAR-26SAN001", password_hash=ph, role="parent", display_name=p1.name, parent_id=p1.id),
-            User(email=s1.email, uid="STU-AIM26WIL001", password_hash=ph, role="student", display_name=s1.name, student_id=s1.id),
-        ]
-    )
-
-    db.session.add(
-        CampusSettings(
-            id=1,
-            lat=app.config["DEFAULT_CAMPUS_LAT"],
-            lng=app.config["DEFAULT_CAMPUS_LNG"],
-            radius_m=app.config["DEFAULT_CAMPUS_RADIUS_M"],
+                teacher_id=teacher.id,
+                course_code="CS101",
+                exam_title="Mid-term",
+                score=42.0,
+                max_score=50.0,
+            )
         )
-    )
 
-    db.session.add_all(
-        [
-            FeeStructure(
-                program="B.Tech CSE",
-                item_name="Tuition (annual)",
-                amount=185000.0,
-                academic_year="2025-26",
-            ),
-            FeeStructure(
-                program="B.Tech CSE",
-                item_name="Lab & facilities",
-                amount=24000.0,
-                academic_year="2025-26",
-            ),
-        ]
-    )
-
-    db.session.add(
-        Mark(
-            student_id=student.id,
-            teacher_id=teacher.id,
-            course_code="CS101",
-            exam_title="Mid-term",
-            score=42.0,
-            max_score=50.0,
+        db.session.add(
+            SalaryDisbursement(
+                teacher_id=teacher.id,
+                period_label="2026-01",
+                gross=85000.0,
+                deductions=8500.0,
+                net=76500.0,
+                notes="January payout",
+            )
         )
-    )
 
-    db.session.add(
-        SalaryDisbursement(
-            teacher_id=teacher.id,
-            period_label="2026-01",
-            gross=85000.0,
-            deductions=8500.0,
-            net=76500.0,
-            notes="January payout",
-        )
-    )
+        db.session.add_all([
+            AcademicEvent(title="Spring Semester Starts", date=date(2026, 1, 15), type="calendar"),
+            AcademicEvent(title="Annual Tech Fest", date=date(2026, 3, 10), type="event"),
+            AcademicEvent(title="Final Exams Week", date=date(2026, 5, 20), type="calendar"),
+            ExamScheduleItem(course_code="CS101", exam_title="Final Exam", exam_date=date(2026, 5, 21)),
+            ExamScheduleItem(course_code="CS102", exam_title="Final Exam", exam_date=date(2026, 5, 23)),
+        ])
 
-    db.session.add_all([
-        AcademicEvent(title="Spring Semester Starts", date=date(2026, 1, 15), type="calendar"),
-        AcademicEvent(title="Annual Tech Fest", date=date(2026, 3, 10), type="event"),
-        AcademicEvent(title="Final Exams Week", date=date(2026, 5, 20), type="calendar"),
-        ExamScheduleItem(course_code="CS101", exam_title="Final Exam", exam_date=date(2026, 5, 21)),
-        ExamScheduleItem(course_code="CS102", exam_title="Final Exam", exam_date=date(2026, 5, 23)),
-    ])
-
-    db.session.commit()
+        db.session.commit()
+    except Exception as e:
+        db.session.rollback()
+        print(f"Seed database skipped or already completed: {e}")
 
 
 def create_app(config_name=None):
@@ -217,13 +221,44 @@ def create_app(config_name=None):
     @app.route("/api/admin/otp-logs", methods=["GET"])
     def legacy_otp_logs():
         from app.auth import get_otp_logs
-        return get_otp_logs()
+    @app.route("/api/system/reset-db", methods=["GET", "POST"])
+    def api_reset_db():
+        """Reset database back to original starting state with default accounts."""
+        try:
+            db.drop_all()
+            db.create_all()
+            seed_database(app)
+            return jsonify({
+                "ok": True,
+                "message": "Database reset to starting state! Admin credentials: admin@edutrack.com / demo123",
+                "accounts": {
+                    "admin": {"email": "admin@edutrack.com", "password": "demo123"},
+                    "teacher": {"email": "teacher@edutrack.com", "password": "demo123"},
+                    "student": {"email": "student@edutrack.com", "password": "demo123"},
+                    "parent": {"email": "parent@edutrack.com", "password": "demo123"}
+                }
+            })
+        except Exception as e:
+            db.session.rollback()
+            return jsonify({"ok": False, "error": str(e)}), 500
 
     @app.route("/")
     def index():
         return send_from_directory(BASE_DIR, "index.html")
 
     with app.app_context():
+        # Check if manual database reset requested via environment variable
+        if os.environ.get("RESET_DB", "").lower() in ("true", "1", "yes"):
+            try:
+                print("RESET_DB detected: dropping and recreating all tables...")
+                db.drop_all()
+                db.create_all()
+                seed_database(app)
+                print("RESET_DB complete: Database reseeded.")
+            except Exception as e:
+                db.session.rollback()
+                print(f"RESET_DB error: {e}")
+
         # Keep create_all for development SQLite auto-setup, but bypass during migrations
         import sys
 
