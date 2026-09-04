@@ -19,7 +19,7 @@ class EduTrackMobileApp extends StatelessWidget {
     return MaterialApp(
       title: 'EduTrack Mobile',
       debugShowCheckedModeBanner: false,
-      theme: AppTheme.darkTheme,
+      theme: AppTheme.lightTheme,
       home: LoginScreen(apiClient: apiClient),
     );
   }

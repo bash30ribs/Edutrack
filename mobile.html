@@ -3,25 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>EduTrack Pro Mobile</title>
+    <title>EduTrack Mobile - Academic Edition</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         :root {
-            --bg-base: #0B132B;
-            --bg-surface: #1C2541;
-            --bg-card: #161F38;
-            --primary: #6366F1;
-            --secondary: #8B5CF6;
-            --emerald: #10B981;
-            --rose: #F43F5E;
-            --amber: #F59E0B;
-            --text-main: #F8FAFC;
-            --text-sub: #94A3B8;
-            --text-muted: #64748B;
-            --border: #334155;
+            /* Website Exact Dual-Tone Palette */
+            --bg-base: #F8FAFC;          /* Clean slate light wash */
+            --bg-surface: #FFFFFF;       /* Crisp white surface */
+            --bg-card: #FFFFFF;          /* Elevated card */
+            --primary: #3B6582;          /* Website Steel Blue */
+            --primary-dark: #2C4C64;     /* Deep Slate Blue */
+            --champagne: #CDA174;        /* Warm Champagne Gold */
+            --champagne-light: #FBF9F5;  /* Soft Warm Wash */
+            --emerald: #3B9B58;          /* Calm Emerald Green */
+            --rose: #DC5252;             /* Calm Rose Red */
+            --text-main: #0F172A;        /* Slate 900 */
+            --text-sub: #475569;         /* Slate 600 */
+            --text-muted: #94A3B8;       /* Slate 400 */
+            --border: #E2E8F0;          /* Subtle Slate Border */
         }
 
         * {
@@ -33,33 +35,68 @@
         }
 
         body {
-            background: #060913;
+            background: #0F172A;
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             color: var(--text-main);
             overflow-x: hidden;
-            padding: 20px;
+            padding: 24px;
         }
 
-        /* Desktop Mockup Shell */
+        /* Mode Switcher Banner on Desktop */
+        .controls-bar {
+            position: fixed;
+            top: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(30, 41, 59, 0.9);
+            backdrop-filter: blur(12px);
+            padding: 8px 16px;
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+            z-index: 100;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .mode-btn {
+            background: transparent;
+            border: none;
+            color: #94A3B8;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .mode-btn.active {
+            background: var(--primary);
+            color: #fff;
+        }
+
+        /* Modern Device Shell */
         .device-wrapper {
             position: relative;
             max-width: 410px;
             width: 100%;
-            height: 840px;
+            height: 844px;
             background: #000;
-            border-radius: 54px;
-            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.8), 0 0 0 12px #1E293B, 0 0 0 14px #334155;
+            border-radius: 50px;
+            box-shadow: 0 30px 100px rgba(0, 0, 0, 0.8), 0 0 0 10px #334155, 0 0 0 12px #475569;
             overflow: hidden;
             display: flex;
             flex-direction: column;
+            margin-top: 30px;
         }
 
         @media (max-width: 500px) {
             body { padding: 0; }
+            .controls-bar { display: none; }
             .device-wrapper {
+                margin-top: 0;
                 height: 100vh;
                 max-width: 100%;
                 border-radius: 0;
@@ -67,30 +104,31 @@
             }
         }
 
-        /* Dynamic Island / Notch */
+        /* Top Status Bar */
         .status-bar {
             height: 44px;
-            padding: 10px 24px 0;
+            padding: 12px 24px 0;
             display: flex;
             align-items: center;
             justify-content: space-between;
             font-size: 13px;
-            font-weight: 600;
+            font-weight: 700;
             color: var(--text-main);
+            background: var(--bg-surface);
             z-index: 10;
         }
         .notch {
-            width: 110px;
+            width: 120px;
             height: 24px;
             background: #000;
             border-radius: 20px;
             position: absolute;
             left: 50%;
             transform: translateX(-50%);
-            top: 10px;
+            top: 8px;
         }
 
-        /* App Content Viewport */
+        /* App Viewport */
         .app-container {
             flex: 1;
             background: var(--bg-base);
@@ -103,76 +141,73 @@
         .screen-view {
             flex: 1;
             overflow-y: auto;
-            padding: 20px;
+            padding: 18px;
             display: none;
         }
         .screen-view.active {
             display: block;
-            animation: fadeIn 0.25s ease-out;
+            animation: fadeIn 0.2s ease-out;
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(6px); }
+            from { opacity: 0; transform: translateY(4px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Cards & Buttons */
+        /* Website Matched Cards */
         .glass-card {
             background: var(--bg-card);
             border: 1px solid var(--border);
-            border-radius: 20px;
+            border-radius: 16px;
             padding: 18px;
-            margin-bottom: 16px;
+            margin-bottom: 14px;
+            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.03);
         }
 
         .btn-primary {
             background: var(--primary);
             color: #fff;
             border: none;
-            border-radius: 14px;
-            padding: 14px;
+            border-radius: 12px;
+            padding: 13px;
             font-weight: 700;
-            font-size: 15px;
+            font-size: 14px;
             width: 100%;
             cursor: pointer;
+            box-shadow: 0 4px 14px rgba(59, 101, 130, 0.25);
             transition: all 0.2s;
         }
         .btn-primary:active { transform: scale(0.98); }
 
-        .btn-green {
-            background: var(--emerald);
+        .btn-champagne {
+            background: var(--champagne);
             color: #fff;
-            box-shadow: 0 4px 20px rgba(16, 185, 129, 0.3);
+            box-shadow: 0 4px 14px rgba(205, 161, 116, 0.3);
         }
 
-        /* Radar Element */
-        .radar-box {
-            width: 190px;
-            height: 190px;
-            border-radius: 50%;
-            margin: 20px auto;
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 2px solid rgba(16, 185, 129, 0.4);
-            animation: pulseGlow 2s infinite ease-in-out;
-        }
-        .radar-inner {
-            width: 130px;
-            height: 130px;
-            border-radius: 50%;
+        /* Website Brand Header */
+        .app-header {
             background: var(--bg-surface);
-            border: 1px solid var(--emerald);
+            border-bottom: 1px solid var(--border);
+            padding: 12px 18px;
             display: flex;
-            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .brand-badge {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .brand-icon {
+            width: 34px;
+            height: 34px;
+            background: var(--primary);
+            border-radius: 10px;
+            display: flex;
             align-items: center;
             justify-content: center;
-        }
-
-        @keyframes pulseGlow {
-            0%, 100% { box-shadow: 0 0 20px rgba(16, 185, 129, 0.2); }
-            50% { box-shadow: 0 0 35px rgba(16, 185, 129, 0.5); }
+            color: #fff;
         }
 
         /* Bottom Nav */
@@ -197,7 +232,7 @@
             transition: 0.2s;
         }
         .nav-item.active {
-            color: var(--emerald);
+            color: var(--primary);
         }
         .nav-item i { width: 20px; height: 20px; }
 
@@ -214,255 +249,279 @@
         }
         .input-control {
             width: 100%;
-            background: var(--bg-surface);
+            background: var(--bg-base);
             border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 12px 14px;
-            color: #fff;
+            border-radius: 10px;
+            padding: 11px 14px;
+            color: var(--text-main);
             font-size: 14px;
             outline: none;
         }
         .input-control:focus {
             border-color: var(--primary);
+            background: #fff;
+        }
+
+        /* Iframe WebView Mode */
+        #webviewFrame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: none;
         }
     </style>
 </head>
 <body>
+
+    <!-- Desktop Switcher between App Interface & Direct Web Portal View -->
+    <div class="controls-bar">
+        <span style="font-size:12px; font-weight:600; color:#94A3B8;">VIEW MODE:</span>
+        <button class="mode-btn active" id="btnAppMode" onclick="setMode('app')">📱 App Interface</button>
+        <button class="mode-btn" id="btnWebMode" onclick="setMode('web')">🌐 Live Portal WebView</button>
+    </div>
 
     <div class="device-wrapper">
         <div class="status-bar">
             <span>9:41</span>
             <div class="notch"></div>
             <div style="display: flex; gap: 6px; align-items: center;">
-                <i data-lucide="wifi" style="width:14px;height:14px;"></i>
-                <i data-lucide="battery" style="width:16px;height:16px;"></i>
+                <i data-lucide="wifi" style="width:14px;height:14px; color:var(--text-sub);"></i>
+                <i data-lucide="battery" style="width:16px;height:16px; color:var(--text-sub);"></i>
             </div>
         </div>
 
         <div class="app-container">
-            <!-- SCREEN 1: LOGIN -->
-            <div id="screenLogin" class="screen-view active">
-                <div style="display: flex; align-items: center; gap: 10px; margin-top: 10px;">
-                    <div style="background: rgba(99,102,241,0.15); padding: 10px; border-radius: 12px; border: 1px solid rgba(99,102,241,0.3);">
-                        <i data-lucide="graduation-cap" style="color: var(--primary); width:24px;height:24px;"></i>
-                    </div>
-                    <div>
-                        <h2 style="font-size: 20px; font-weight: 800;">EduTrack</h2>
-                        <p style="font-size: 11px; color: var(--emerald); font-weight: 600;">● Connected to Render</p>
-                    </div>
-                </div>
 
-                <div style="margin: 32px 0 24px;">
-                    <h1 style="font-size: 26px; font-weight: 800;">Welcome Back</h1>
-                    <p style="font-size: 13px; color: var(--text-sub); margin-top: 4px;">Sign in with your Portal ID or Institutional Email</p>
-                </div>
+            <!-- WEBVIEW IFRAME MODE (Displays the actual website inside the mobile phone!) -->
+            <iframe id="webviewFrame" src="/"></iframe>
 
-                <div class="glass-card">
-                    <div class="input-group">
-                        <label>Portal ID / Email</label>
-                        <input type="text" id="mobileIdentifier" class="input-control" value="admin@edutrack.com">
-                    </div>
-                    <div class="input-group">
-                        <label>Password</label>
-                        <input type="password" id="mobilePassword" class="input-control" value="demo123">
-                    </div>
-                    <button class="btn-primary" id="mobileLoginBtn" onclick="doMobileLogin()" style="margin-top: 10px;">
-                        Sign In to Portal
-                    </button>
-                    <div id="loginStatusMsg" style="margin-top: 10px; font-size: 12px; text-align: center; color: var(--rose);"></div>
-                </div>
-
-                <div style="text-align: center; font-size: 11px; color: var(--text-muted); font-weight: 700; margin: 16px 0 10px;">
-                    QUICK TEST ACCOUNTS
-                </div>
-                <div style="display: flex; gap: 8px;">
-                    <button class="btn-primary" style="flex:1; background: var(--bg-surface); border:1px solid var(--border); font-size: 12px; padding: 10px;" onclick="fillLogin('admin@edutrack.com', 'demo123')">Admin</button>
-                    <button class="btn-primary" style="flex:1; background: var(--bg-surface); border:1px solid var(--border); font-size: 12px; padding: 10px;" onclick="fillLogin('teacher@edutrack.com', 'demo123')">Teacher</button>
-                    <button class="btn-primary" style="flex:1; background: var(--bg-surface); border:1px solid var(--border); font-size: 12px; padding: 10px;" onclick="fillLogin('student@edutrack.com', 'demo123')">Student</button>
-                </div>
-            </div>
-
-            <!-- SCREEN 2: DASHBOARD -->
-            <div id="screenDashboard" class="screen-view">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                    <div style="display: flex; gap: 12px; align-items: center;">
-                        <div style="width: 44px; height: 44px; border-radius: 50%; background: rgba(99,102,241,0.2); display: flex; align-items: center; justify-content: center; font-weight: 700; color: var(--primary);">
-                            <span id="userInitial">A</span>
+            <!-- NATIVE APP SCREENS -->
+            <div id="nativeAppContainer" style="flex:1; display:flex; flex-direction:column; overflow:hidden;">
+                
+                <!-- HEADER -->
+                <div class="app-header">
+                    <div class="brand-badge">
+                        <div class="brand-icon">
+                            <i data-lucide="graduation-cap" style="width:20px;height:20px;"></i>
                         </div>
                         <div>
-                            <h3 id="dashUserName" style="font-size: 16px; font-weight: 700;">Admin User</h3>
-                            <p id="dashUserRole" style="font-size: 11px; color: var(--emerald); font-weight: 600;">ADMINISTRATOR</p>
+                            <h3 style="font-size:16px; font-weight:800; color:var(--primary-dark); letter-spacing:-0.3px;">EduTrack</h3>
+                            <p style="font-size:10px; color:var(--champagne); font-weight:700;">CAMPUS OPERATIONS</p>
                         </div>
                     </div>
-                    <div style="background: var(--bg-surface); border: 1px solid var(--border); width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center;">
-                        <i data-lucide="bell" style="width: 18px; height: 18px; color: var(--text-sub);"></i>
+                    <span id="topRoleBadge" style="display:none; font-size:11px; background:var(--champagne-light); color:var(--champagne); font-weight:700; border:1px solid var(--border); padding:3px 10px; border-radius:14px;">
+                        ADMIN
+                    </span>
+                </div>
+
+                <!-- 1. LOGIN SCREEN -->
+                <div id="screenLogin" class="screen-view active">
+                    <div style="margin: 20px 0 20px;">
+                        <h2 style="font-size: 24px; font-weight: 800; color: var(--primary-dark); letter-spacing:-0.5px;">Sign In to Portal</h2>
+                        <p style="font-size: 13px; color: var(--text-sub); margin-top: 4px;">Access institutional dashboard, attendance, and timetable</p>
+                    </div>
+
+                    <div class="glass-card">
+                        <div class="input-group">
+                            <label>Portal ID or Institutional Email</label>
+                            <input type="text" id="mobileIdentifier" class="input-control" value="admin@edutrack.com">
+                        </div>
+                        <div class="input-group">
+                            <label>Password</label>
+                            <input type="password" id="mobilePassword" class="input-control" value="demo123">
+                        </div>
+                        <button class="btn-primary" id="mobileLoginBtn" onclick="doMobileLogin()" style="margin-top: 6px;">
+                            Sign In to Portal
+                        </button>
+                        <div id="loginStatusMsg" style="margin-top: 10px; font-size: 12px; text-align: center; color: var(--rose);"></div>
+                    </div>
+
+                    <div style="text-align: center; font-size: 11px; color: var(--text-muted); font-weight: 700; letter-spacing: 0.8px; margin: 20px 0 10px;">
+                        QUICK LOGIN AS
+                    </div>
+                    <div style="display: flex; gap: 8px;">
+                        <button class="btn-primary" style="flex:1; background:#fff; color:var(--text-main); border:1px solid var(--border); font-size:12px; padding:10px;" onclick="fillLogin('admin@edutrack.com', 'demo123')">Admin</button>
+                        <button class="btn-primary" style="flex:1; background:#fff; color:var(--text-main); border:1px solid var(--border); font-size:12px; padding:10px;" onclick="fillLogin('teacher@edutrack.com', 'demo123')">Teacher</button>
+                        <button class="btn-primary" style="flex:1; background:#fff; color:var(--text-main); border:1px solid var(--border); font-size:12px; padding:10px;" onclick="fillLogin('student@edutrack.com', 'demo123')">Student</button>
                     </div>
                 </div>
 
-                <!-- Geofence Quick Checkin -->
-                <div class="glass-card" style="border-color: rgba(16,185,129,0.3); background: linear-gradient(135deg, rgba(16,185,129,0.12), var(--bg-card)); cursor: pointer;" onclick="switchTab('attendance')">
-                    <div style="display: flex; align-items: center; gap: 14px;">
-                        <div style="background: rgba(16,185,129,0.2); width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-                            <i data-lucide="fingerprint" style="color: var(--emerald); width: 24px; height: 24px;"></i>
+                <!-- 2. DASHBOARD SCREEN (Matches Website Layout) -->
+                <div id="screenDashboard" class="screen-view">
+                    <!-- Welcome Card -->
+                    <div class="glass-card" style="border-left: 4px solid var(--primary); background: #fff;">
+                        <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                            <div>
+                                <span style="font-size:11px; font-weight:700; color:var(--champagne); text-transform:uppercase;">ACADEMIC PORTAL</span>
+                                <h3 id="dashUserName" style="font-size:18px; font-weight:800; color:var(--primary-dark); margin-top:2px;">Admin User</h3>
+                                <p id="dashUserEmail" style="font-size:12px; color:var(--text-sub); margin-top:2px;">admin@edutrack.com</p>
+                            </div>
+                            <div style="background:var(--champagne-light); border:1px solid var(--champagne); color:var(--champagne); padding:4px 10px; border-radius:12px; font-size:11px; font-weight:700;">
+                                AY 2025-26
+                            </div>
                         </div>
-                        <div style="flex: 1;">
-                            <h4 style="font-size: 14px; font-weight: 700;">Campus Geofence Active</h4>
-                            <p style="font-size: 12px; color: var(--text-sub); margin-top: 2px;">Tap to scan biometric attendance</p>
+                    </div>
+
+                    <!-- 2x2 Metric Cards (Matching Website Dual-Tone Cards) -->
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:14px;">
+                        <div class="glass-card" style="margin:0; padding:14px;">
+                            <span style="font-size:11px; font-weight:700; color:var(--text-muted);">OVERALL ATTENDANCE</span>
+                            <h2 style="font-size:22px; font-weight:800; color:var(--emerald); margin-top:6px;">92.4%</h2>
+                            <p style="font-size:11px; color:var(--text-sub); margin-top:2px;">Compliance met</p>
                         </div>
-                        <i data-lucide="chevron-right" style="color: var(--emerald); width: 18px; height: 18px;"></i>
+                        <div class="glass-card" style="margin:0; padding:14px;">
+                            <span style="font-size:11px; font-weight:700; color:var(--text-muted);">CURRENT CGPA</span>
+                            <h2 style="font-size:22px; font-weight:800; color:var(--primary); margin-top:6px;">8.8 / 10</h2>
+                            <p style="font-size:11px; color:var(--text-sub); margin-top:2px;">Dean's Honor List</p>
+                        </div>
+                        <div class="glass-card" style="margin:0; padding:14px;">
+                            <span style="font-size:11px; font-weight:700; color:var(--text-muted);">FEE CLEARANCE</span>
+                            <h2 style="font-size:18px; font-weight:800; color:var(--emerald); margin-top:6px;">Settled</h2>
+                            <p style="font-size:11px; color:var(--text-sub); margin-top:2px;">Term 1 Paid</p>
+                        </div>
+                        <div class="glass-card" style="margin:0; padding:14px;">
+                            <span style="font-size:11px; font-weight:700; color:var(--text-muted);">EWS STATUS</span>
+                            <h2 style="font-size:18px; font-weight:800; color:var(--primary); margin-top:6px;">Normal</h2>
+                            <p style="font-size:11px; color:var(--text-sub); margin-top:2px;">0 Risk Flags</p>
+                        </div>
+                    </div>
+
+                    <!-- Geofence Attendance Action Card -->
+                    <div class="glass-card" style="background: linear-gradient(135deg, var(--champagne-light), #fff); border-color: var(--champagne); cursor:pointer;" onclick="switchTab('attendance')">
+                        <div style="display:flex; align-items:center; gap:14px;">
+                            <div style="background:var(--primary); color:#fff; width:44px; height:44px; border-radius:12px; display:flex; align-items:center; justify-content:center;">
+                                <i data-lucide="map-pin" style="width:22px;height:22px;"></i>
+                            </div>
+                            <div style="flex:1;">
+                                <h4 style="font-size:14px; font-weight:700; color:var(--primary-dark);">Campus Geofence Active</h4>
+                                <p style="font-size:12px; color:var(--text-sub); margin-top:2px;">Tap to record coordinate check-in</p>
+                            </div>
+                            <i data-lucide="chevron-right" style="color:var(--primary); width:20px;"></i>
+                        </div>
+                    </div>
+
+                    <!-- Today's Classes -->
+                    <div class="glass-card">
+                        <h4 style="font-size:14px; font-weight:700; color:var(--primary-dark); margin-bottom:10px;">Next Session</h4>
+                        <div style="display:flex; justify-content:space-between; align-items:center;">
+                            <div>
+                                <h5 style="font-size:14px; font-weight:700;">Machine Learning Lab</h5>
+                                <p style="font-size:12px; color:var(--text-sub); margin-top:2px;">10:30 AM • Lab 402 • Dr. Anita Desai</p>
+                            </div>
+                            <span style="background:var(--primary-light); color:var(--primary); font-size:11px; font-weight:700; padding:4px 8px; border-radius:8px;">In 25m</span>
+                        </div>
                     </div>
                 </div>
 
-                <!-- 2x2 Metrics -->
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px;">
-                    <div class="glass-card" style="margin:0; padding:14px;">
-                        <div style="display:flex; justify-content:space-between;">
-                            <span style="font-size:11px; color:var(--text-muted); font-weight:700;">ATTENDANCE</span>
-                            <i data-lucide="check-circle" style="width:14px; color:var(--emerald);"></i>
-                        </div>
-                        <h2 style="font-size:20px; font-weight:800; color:var(--emerald); margin-top:8px;">92.4%</h2>
-                        <p style="font-size:10px; color:var(--text-sub); margin-top:2px;">Safe zone (> 75%)</p>
-                    </div>
+                <!-- 3. ATTENDANCE SCREEN (Steel Blue / Champagne Theme) -->
+                <div id="screenAttendance" class="screen-view">
+                    <h3 style="font-size:18px; font-weight:800; color:var(--primary-dark); margin-bottom:4px;">Campus Smart Attendance</h3>
+                    <p style="font-size:12px; color:var(--text-sub); margin-bottom:16px;">Coordinate Geofence & Facial Biometrics</p>
 
-                    <div class="glass-card" style="margin:0; padding:14px;">
-                        <div style="display:flex; justify-content:space-between;">
-                            <span style="font-size:11px; color:var(--text-muted); font-weight:700;">CURRENT GPA</span>
-                            <i data-lucide="award" style="width:14px; color:var(--primary);"></i>
+                    <div class="glass-card" style="text-align:center; padding:24px 18px;">
+                        <div style="display:inline-flex; align-items:center; gap:6px; background:var(--champagne-light); border:1px solid var(--champagne); padding:4px 14px; border-radius:20px; font-size:11px; font-weight:700; color:var(--champagne);">
+                            <i data-lucide="map-pin" style="width:12px;height:12px;"></i> Inside Campus Boundary (Within 500m)
                         </div>
-                        <h2 style="font-size:20px; font-weight:800; color:var(--primary); margin-top:8px;">8.8 / 10</h2>
-                        <p style="font-size:10px; color:var(--text-sub); margin-top:2px;">Dean's List</p>
-                    </div>
 
-                    <div class="glass-card" style="margin:0; padding:14px;">
-                        <div style="display:flex; justify-content:space-between;">
-                            <span style="font-size:11px; color:var(--text-muted); font-weight:700;">FEE STATUS</span>
-                            <i data-lucide="credit-card" style="width:14px; color:var(--emerald);"></i>
+                        <div style="width:160px; height:160px; border-radius:50%; margin:24px auto; background:var(--primary-light); border:2px solid var(--primary); display:flex; flex-direction:column; align-items:center; justify-content:center;">
+                            <i data-lucide="shield-check" style="width:36px;height:36px; color:var(--primary); margin-bottom:6px;"></i>
+                            <span style="font-size:10px; font-weight:800; letter-spacing:1px; color:var(--primary-dark);">CAMPUS RADAR</span>
+                            <span style="font-size:13px; font-weight:700; color:var(--primary);">65m radius</span>
                         </div>
-                        <h2 style="font-size:16px; font-weight:800; color:var(--emerald); margin-top:10px;">Paid in Full</h2>
-                        <p style="font-size:10px; color:var(--text-sub); margin-top:4px;">AY 2025-26</p>
-                    </div>
 
-                    <div class="glass-card" style="margin:0; padding:14px;">
-                        <div style="display:flex; justify-content:space-between;">
-                            <span style="font-size:11px; color:var(--text-muted); font-weight:700;">EWS RISK</span>
-                            <i data-lucide="shield-check" style="width:14px; color:var(--secondary);"></i>
-                        </div>
-                        <h2 style="font-size:16px; font-weight:800; color:var(--secondary); margin-top:10px;">No Alerts</h2>
-                        <p style="font-size:10px; color:var(--text-sub); margin-top:4px;">Normal Standing</p>
+                        <p id="radarStatusText" style="font-size:12px; color:var(--text-sub); margin-bottom:20px;">
+                            GPS verified. Tap below to confirm attendance with the Render server.
+                        </p>
+
+                        <button class="btn-primary" onclick="simulateScan()">
+                            <i data-lucide="check-circle" style="width:18px;height:18px; vertical-align:middle; margin-right:6px;"></i>
+                            Confirm Attendance Check-In
+                        </button>
                     </div>
                 </div>
 
-                <!-- Next Class Card -->
-                <div class="glass-card">
-                    <div style="display:flex; align-items:center; gap:12px;">
-                        <div style="width:4px; height:42px; background:var(--primary); border-radius:4px;"></div>
-                        <div style="flex:1;">
+                <!-- 4. TIMETABLE SCREEN -->
+                <div id="screenTimetable" class="screen-view">
+                    <h3 style="font-size:18px; font-weight:800; color:var(--primary-dark); margin-bottom:14px;">Timetable & Schedule</h3>
+                    
+                    <div class="glass-card" style="border-left:4px solid var(--emerald);">
+                        <div style="display:flex; justify-content:space-between; align-items:center;">
                             <h4 style="font-size:14px; font-weight:700;">Machine Learning Lab</h4>
-                            <p style="font-size:12px; color:var(--text-sub); margin-top:2px;">10:30 AM • Lab 402 • Dr. Anita Desai</p>
+                            <span style="background:var(--emerald); color:#fff; font-size:10px; font-weight:800; padding:2px 8px; border-radius:8px;">IN SESSION</span>
                         </div>
-                        <span style="background:rgba(99,102,241,0.15); color:var(--primary); font-size:11px; font-weight:700; padding:4px 8px; border-radius:8px;">In 25m</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- SCREEN 3: ATTENDANCE (RADAR) -->
-            <div id="screenAttendance" class="screen-view">
-                <div style="text-align:center; margin-bottom:12px;">
-                    <h2 style="font-size:18px; font-weight:800;">Smart Biometrics</h2>
-                    <p style="font-size:12px; color:var(--text-sub);">GPS Coordinate & Geofence Verification</p>
-                </div>
-
-                <div class="glass-card" style="text-align:center;">
-                    <div style="display:inline-flex; align-items:center; gap:6px; background:rgba(16,185,129,0.15); padding:4px 12px; border-radius:20px; font-size:11px; font-weight:700; color:var(--emerald);">
-                        <i data-lucide="map-pin" style="width:12px;height:12px;"></i> Inside Campus (65m radius)
+                        <p style="font-size:12px; color:var(--text-sub); margin-top:4px;">10:30 AM - 12:30 PM • Lab 402 • Dr. Anita Desai</p>
                     </div>
 
-                    <div class="radar-box">
-                        <div class="radar-inner">
-                            <i data-lucide="navigation" style="width:28px;height:28px; color:var(--emerald); margin-bottom:4px;"></i>
-                            <span style="font-size:9px; font-weight:800; letter-spacing:1px; color:var(--text-muted);">CAMPUS GEO</span>
-                            <span style="font-size:12px; font-weight:700; color:#fff;">65m radius</span>
+                    <div class="glass-card" style="border-left:4px solid var(--primary);">
+                        <h4 style="font-size:14px; font-weight:700;">Database Systems (DBMS)</h4>
+                        <p style="font-size:12px; color:var(--text-sub); margin-top:4px;">01:30 PM - 02:30 PM • Room 204 • Prof. Rajesh Sharma</p>
+                    </div>
+
+                    <div class="glass-card" style="border-left:4px solid var(--champagne);">
+                        <h4 style="font-size:14px; font-weight:700;">Cloud Computing & DevOps</h4>
+                        <p style="font-size:12px; color:var(--text-sub); margin-top:4px;">02:45 PM - 04:00 PM • Hall A • Dr. Sarah Chen</p>
+                    </div>
+                </div>
+
+                <!-- 5. PROFILE SCREEN -->
+                <div id="screenProfile" class="screen-view">
+                    <div class="glass-card" style="text-align:center; padding:20px;">
+                        <div style="width:58px; height:58px; border-radius:50%; background:var(--primary-light); color:var(--primary); font-size:22px; font-weight:800; margin:0 auto 10px; display:flex; align-items:center; justify-content:center;">
+                            <span id="profileInitial">A</span>
                         </div>
+                        <h3 id="profileName" style="font-size:17px; font-weight:800; color:var(--primary-dark);">Admin User</h3>
+                        <p id="profileEmail" style="font-size:12px; color:var(--text-sub); margin-top:2px;">admin@edutrack.com</p>
+                        <span id="profileRole" style="display:inline-block; margin-top:8px; background:var(--champagne-light); color:var(--champagne); font-size:11px; font-weight:700; border:1px solid var(--champagne); padding:3px 12px; border-radius:14px;">
+                            ADMINISTRATOR
+                        </span>
                     </div>
 
-                    <p id="radarStatusText" style="font-size:12px; color:var(--text-sub); margin-bottom:18px;">
-                        Radar active. Coordinates matched to campus bounding box.
-                    </p>
-
-                    <button class="btn-primary btn-green" onclick="simulateScan()">
-                        <i data-lucide="fingerprint" style="width:18px;height:18px; vertical-align:middle; margin-right:6px;"></i>
-                        Verify Biometric & Check-In
-                    </button>
-                </div>
-            </div>
-
-            <!-- SCREEN 4: TIMETABLE -->
-            <div id="screenTimetable" class="screen-view">
-                <h2 style="font-size:18px; font-weight:800; margin-bottom:14px;">Today's Schedule</h2>
-                <div class="glass-card" style="border-color:var(--emerald);">
-                    <div style="display:flex; justify-content:space-between; align-items:center;">
-                        <h4 style="font-size:14px; font-weight:700;">Machine Learning Lab</h4>
-                        <span style="background:rgba(16,185,129,0.2); color:var(--emerald); font-size:10px; font-weight:800; padding:2px 8px; border-radius:10px;">LIVE</span>
+                    <div class="glass-card" style="padding:6px;">
+                        <button class="btn-primary" style="background:transparent; color:var(--rose); text-align:left; padding:12px; box-shadow:none; display:flex; align-items:center; gap:10px; font-size:13px;" onclick="doMobileLogout()">
+                            <i data-lucide="log-out" style="width:18px;height:18px;"></i> Sign Out
+                        </button>
                     </div>
-                    <p style="font-size:12px; color:var(--text-sub); margin-top:6px;"><i data-lucide="clock" style="width:12px; vertical-align:middle;"></i> 10:30 AM - 12:30 PM • Lab 402</p>
-                    <p style="font-size:11px; color:var(--text-muted); margin-top:2px;">Faculty: Dr. Anita Desai</p>
                 </div>
 
-                <div class="glass-card">
-                    <h4 style="font-size:14px; font-weight:700;">Database Systems (DBMS)</h4>
-                    <p style="font-size:12px; color:var(--text-sub); margin-top:6px;"><i data-lucide="clock" style="width:12px; vertical-align:middle;"></i> 01:30 PM - 02:30 PM • Room 204</p>
-                    <p style="font-size:11px; color:var(--text-muted); margin-top:2px;">Faculty: Prof. Rajesh Sharma</p>
-                </div>
-
-                <div class="glass-card">
-                    <h4 style="font-size:14px; font-weight:700;">Cloud Computing & DevOps</h4>
-                    <p style="font-size:12px; color:var(--text-sub); margin-top:6px;"><i data-lucide="clock" style="width:12px; vertical-align:middle;"></i> 02:45 PM - 04:00 PM • Hall A</p>
-                    <p style="font-size:11px; color:var(--text-muted); margin-top:2px;">Faculty: Dr. Sarah Chen</p>
-                </div>
-            </div>
-
-            <!-- SCREEN 5: PROFILE -->
-            <div id="screenProfile" class="screen-view">
-                <div class="glass-card" style="text-align:center; padding:24px;">
-                    <div style="width:64px; height:64px; border-radius:50%; background:rgba(99,102,241,0.2); margin:0 auto 12px; display:flex; align-items:center; justify-content:center; font-size:24px; font-weight:800; color:var(--primary);">
-                        <span id="profileInitial">A</span>
+                <!-- BOTTOM NAV -->
+                <div class="nav-bar" id="bottomNav" style="display: none;">
+                    <div class="nav-item active" id="navDash" onclick="switchTab('dashboard')">
+                        <i data-lucide="layout-dashboard"></i>
+                        <span>Dashboard</span>
                     </div>
-                    <h3 id="profileName" style="font-size:18px; font-weight:800;">Admin User</h3>
-                    <p id="profileEmail" style="font-size:12px; color:var(--text-sub); margin-top:2px;">admin@edutrack.com</p>
-                    <span id="profileRole" style="display:inline-block; margin-top:10px; background:rgba(99,102,241,0.15); color:var(--primary); font-size:11px; font-weight:700; padding:4px 14px; border-radius:20px;">ADMINISTRATOR</span>
+                    <div class="nav-item" id="navAtt" onclick="switchTab('attendance')">
+                        <i data-lucide="map-pin"></i>
+                        <span>Attendance</span>
+                    </div>
+                    <div class="nav-item" id="navTime" onclick="switchTab('timetable')">
+                        <i data-lucide="calendar"></i>
+                        <span>Timetable</span>
+                    </div>
+                    <div class="nav-item" id="navProf" onclick="switchTab('profile')">
+                        <i data-lucide="user"></i>
+                        <span>Profile</span>
+                    </div>
                 </div>
 
-                <div class="glass-card" style="padding:8px;">
-                    <button class="btn-primary" style="background:transparent; color:var(--rose); text-align:left; padding:12px; display:flex; align-items:center; gap:10px; font-size:14px;" onclick="doMobileLogout()">
-                        <i data-lucide="log-out" style="width:18px;height:18px;"></i> Sign Out
-                    </button>
-                </div>
-            </div>
-
-            <!-- BOTTOM NAVIGATION BAR -->
-            <div class="nav-bar" id="bottomNav" style="display: none;">
-                <div class="nav-item active" id="navDash" onclick="switchTab('dashboard')">
-                    <i data-lucide="home"></i>
-                    <span>Home</span>
-                </div>
-                <div class="nav-item" id="navAtt" onclick="switchTab('attendance')">
-                    <i data-lucide="navigation"></i>
-                    <span>Attendance</span>
-                </div>
-                <div class="nav-item" id="navTime" onclick="switchTab('timetable')">
-                    <i data-lucide="calendar"></i>
-                    <span>Timetable</span>
-                </div>
-                <div class="nav-item" id="navProf" onclick="switchTab('profile')">
-                    <i data-lucide="user"></i>
-                    <span>Profile</span>
-                </div>
             </div>
         </div>
     </div>
 
     <script>
         lucide.createIcons();
+
+        function setMode(mode) {
+            document.getElementById('btnAppMode').classList.toggle('active', mode === 'app');
+            document.getElementById('btnWebMode').classList.toggle('active', mode === 'web');
+
+            if (mode === 'web') {
+                document.getElementById('nativeAppContainer').style.display = 'none';
+                document.getElementById('webviewFrame').style.display = 'block';
+            } else {
+                document.getElementById('webviewFrame').style.display = 'none';
+                document.getElementById('nativeAppContainer').style.display = 'flex';
+            }
+        }
 
         function fillLogin(email, pwd) {
             document.getElementById('mobileIdentifier').value = email;
@@ -491,12 +550,13 @@
                 if (data.ok && data.user) {
                     const u = data.user;
                     document.getElementById('dashUserName').innerText = u.display_name || u.email;
-                    document.getElementById('dashUserRole').innerText = (u.role || 'User').toUpperCase();
-                    document.getElementById('userInitial').innerText = (u.display_name || u.email).charAt(0).toUpperCase();
-                    document.getElementById('profileInitial').innerText = (u.display_name || u.email).charAt(0).toUpperCase();
+                    document.getElementById('dashUserEmail').innerText = u.email;
+                    document.getElementById('topRoleBadge').innerText = (u.role || 'User').toUpperCase();
+                    document.getElementById('topRoleBadge').style.display = 'inline-block';
                     document.getElementById('profileName').innerText = u.display_name || u.email;
                     document.getElementById('profileEmail').innerText = u.email;
                     document.getElementById('profileRole').innerText = (u.role || 'User').toUpperCase();
+                    document.getElementById('profileInitial').innerText = (u.display_name || u.email).charAt(0).toUpperCase();
 
                     document.getElementById('screenLogin').classList.remove('active');
                     document.getElementById('bottomNav').style.display = 'flex';
@@ -537,19 +597,20 @@
 
         function simulateScan() {
             const statusEl = document.getElementById('radarStatusText');
-            statusEl.innerText = 'Scanning biometric face & GPS coordinates...';
+            statusEl.innerText = 'Transmitting coordinate verification to Render...';
             statusEl.style.color = 'var(--primary)';
 
             setTimeout(() => {
                 statusEl.innerText = 'Verified! Attendance recorded for AY 2025-26.';
                 statusEl.style.color = 'var(--emerald)';
-                alert('Attendance Successfully Verified inside Campus Geofence!');
-            }, 1200);
+                alert('Attendance Recorded! Coordinates confirmed inside campus geofence.');
+            }, 1000);
         }
 
         async function doMobileLogout() {
             await fetch('/api/auth/logout', { method: 'POST' });
             document.getElementById('bottomNav').style.display = 'none';
+            document.getElementById('topRoleBadge').style.display = 'none';
             document.querySelectorAll('.screen-view').forEach(s => s.classList.remove('active'));
             document.getElementById('screenLogin').classList.add('active');
         }
