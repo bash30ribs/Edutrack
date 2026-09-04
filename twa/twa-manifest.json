@@ -1,0 +1,48 @@
+{
+  "packageId": "com.edutrack.app",
+  "host": "edutrack-9srw.onrender.com",
+  "name": "EduTrack",
+  "launcherName": "EduTrack",
+  "display": "standalone",
+  "themeColor": "#3B6582",
+  "themeColorDark": "#0F172A",
+  "navigationColor": "#3B6582",
+  "navigationColorDark": "#0F172A",
+  "navigationDividerColor": "#00000000",
+  "navigationDividerColorDark": "#00000000",
+  "backgroundColor": "#F8FAFC",
+  "enableNotifications": true,
+  "startUrl": "/",
+  "iconUrl": "https://edutrack-9srw.onrender.com/static/css/icon-512.png",
+  "maskableIconUrl": "https://edutrack-9srw.onrender.com/static/css/icon-512.png",
+  "splashScreenFadeOutDuration": 300,
+  "signingKey": {
+    "path": "./edutrack-keystore.jks",
+    "alias": "edutrack"
+  },
+  "appVersionName": "1.0.0",
+  "appVersionCode": 1,
+  "shortcuts": [
+    {
+      "name": "Dashboard",
+      "shortName": "Dashboard",
+      "url": "/?view=dashboard",
+      "chosenIconUrl": "https://edutrack-9srw.onrender.com/static/css/icon-192.png"
+    },
+    {
+      "name": "Attendance",
+      "shortName": "Attendance",
+      "url": "/?view=attendance",
+      "chosenIconUrl": "https://edutrack-9srw.onrender.com/static/css/icon-192.png"
+    }
+  ],
+  "generatorApp": "bubblewrap-cli",
+  "webManifestUrl": "https://edutrack-9srw.onrender.com/static/manifest.json",
+  "fallbackType": "customtabs",
+  "enableSiteSettingsShortcut": true,
+  "isChromeOSOnly": false,
+  "isMetaQuest": false,
+  "fullScopeUrl": "https://edutrack-9srw.onrender.com/",
+  "minSdkVersion": 19,
+  "orientation": "portrait"
+}

@@ -1,13 +1,17 @@
 {
-  "name": "EduTrack - Smart Attendance",
+  "name": "EduTrack - College Management System",
   "short_name": "EduTrack",
-  "description": "GPS + Face recognition classroom attendance system",
+  "description": "Smart campus management with GPS attendance, real-time analytics, and instant notifications for administrators, teachers, students, and parents.",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
-  "background_color": "#f5f0eb",
-  "theme_color": "#4a6b8a",
   "orientation": "portrait-primary",
-  "categories": ["education", "productivity"],
+  "background_color": "#F8FAFC",
+  "theme_color": "#3B6582",
+  "categories": ["education", "productivity", "business"],
+  "lang": "en",
+  "dir": "ltr",
+  "prefer_related_applications": false,
   "icons": [
     {
       "src": "/static/css/icon-192.png",
@@ -20,6 +24,22 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Dashboard",
+      "short_name": "Dashboard",
+      "url": "/?view=dashboard",
+      "description": "Go to your dashboard",
+      "icons": [{ "src": "/static/css/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Mark Attendance",
+      "short_name": "Attendance",
+      "url": "/?view=attendance",
+      "description": "Take or view attendance",
+      "icons": [{ "src": "/static/css/icon-192.png", "sizes": "192x192" }]
     }
   ]
 }

@@ -252,6 +252,18 @@ def create_app(config_name=None):
     def mobile_view():
         return send_from_directory(BASE_DIR, "mobile.html")
 
+    @app.route("/.well-known/assetlinks.json")
+    def asset_links():
+        """Digital Asset Links for TWA (Trusted Web Activity) verification."""
+        return jsonify([{
+            "relation": ["delegate_permission/common.handle_all_urls"],
+            "target": {
+                "namespace": "android_app",
+                "package_name": "com.edutrack.app",
+                "sha256_cert_fingerprints": []
+            }
+        }])
+
     with app.app_context():
         # Check if manual database reset requested via environment variable
         if os.environ.get("RESET_DB", "").lower() in ("true", "1", "yes"):
