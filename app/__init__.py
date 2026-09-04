@@ -248,6 +248,10 @@ def create_app(config_name=None):
     def index():
         return send_from_directory(BASE_DIR, "index.html")
 
+    @app.route("/mobile")
+    def mobile_view():
+        return send_from_directory(BASE_DIR, "mobile.html")
+
     with app.app_context():
         # Check if manual database reset requested via environment variable
         if os.environ.get("RESET_DB", "").lower() in ("true", "1", "yes"):
