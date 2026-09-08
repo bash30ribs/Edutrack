@@ -1,0 +1,1 @@
+# Security Policy\n\n## Reporting a Vulnerability\nPlease email security concerns to the maintainer.\n\n## Supported Versions\n| Version | Supported |\n|---------|----------|\n| 1.2.x | ✅ |\n| 1.1.x | ✅ |\n| < 1.1 | ❌ |
