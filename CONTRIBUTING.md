@@ -1,0 +1,1 @@
+# Contributing\n\nWe welcome contributions!\n\n## How to Contribute\n1. Fork the repository\n2. Create a feature branch\n3. Make your changes\n4. Submit a pull request\n\n## Code Style\n- Follow PEP 8 for Python\n- Use Dart formatting standards for Flutter
