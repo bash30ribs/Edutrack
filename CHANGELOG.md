@@ -1,0 +1,1 @@
+# Changelog\n\n## [1.2.0] - 2026-09-08\n- Added PWA support\n- Dark/Light theme toggle\n- Mobile app improvements\n\n## [1.1.0] - 2026-09-01\n- Flutter mobile app\n- Steel blue + champagne palette\n\n## [1.0.0] - 2026-08-15\n- Initial release\n- Student management\n- Attendance tracking
