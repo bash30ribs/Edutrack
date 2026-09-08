@@ -1,0 +1,1 @@
+# Code of Conduct\n\nThis project follows the Contributor Covenant Code of Conduct.\n\n## Our Pledge\nWe pledge to make participation in our project a harassment-free experience for everyone.\n\n## Our Standards\n- Be respectful\n- Be constructive\n- Be collaborative
