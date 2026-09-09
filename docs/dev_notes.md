@@ -8,3 +8,7 @@
 ## Database Configuration
 - PostgreSQL recommended for production
 - SQLite used for local development
+
+## API Endpoints
+- GET /api/students - List all students
+- POST /api/attendance - Mark attendance
