@@ -12,3 +12,5 @@
 ## API Endpoints
 - GET /api/students - List all students
 - POST /api/attendance - Mark attendance
+- GET /api/timetable - Fetch timetable
+- PUT /api/profile - Update profile
