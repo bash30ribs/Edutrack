@@ -35,3 +35,7 @@
 - Follow PEP 8 for Python code
 - Use Dart formatting standards for Flutter
 - Keep functions under 30 lines when possible
+
+## Known Issues
+- Timetable sync may delay on slow connections
+- Push notifications require FCM setup
