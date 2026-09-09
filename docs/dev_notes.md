@@ -22,3 +22,8 @@
 ## Testing
 - Run unit tests: python -m pytest
 - Run flutter tests: flutter test
+
+## Deployment Checklist
+- [ ] Run all tests
+- [ ] Update version number
+- [ ] Check environment variables
