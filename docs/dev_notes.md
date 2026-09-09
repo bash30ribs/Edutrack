@@ -18,3 +18,7 @@
 ## Mobile App
 - Built with Flutter/Dart
 - Minimum SDK: Android 21, iOS 12
+
+## Testing
+- Run unit tests: python -m pytest
+- Run flutter tests: flutter test
