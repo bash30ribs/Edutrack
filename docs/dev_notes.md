@@ -39,3 +39,8 @@
 ## Known Issues
 - Timetable sync may delay on slow connections
 - Push notifications require FCM setup
+
+## Future Improvements
+- Add offline mode for mobile app
+- Implement real-time attendance tracking
+- Add parent portal
