@@ -44,3 +44,7 @@
 - Add offline mode for mobile app
 - Implement real-time attendance tracking
 - Add parent portal
+
+---
+Last updated: September 2026
+Maintainer: EduTrack Team
