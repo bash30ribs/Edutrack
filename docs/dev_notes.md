@@ -14,3 +14,7 @@
 - POST /api/attendance - Mark attendance
 - GET /api/timetable - Fetch timetable
 - PUT /api/profile - Update profile
+
+## Mobile App
+- Built with Flutter/Dart
+- Minimum SDK: Android 21, iOS 12
