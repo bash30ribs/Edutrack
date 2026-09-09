@@ -30,3 +30,8 @@
 - [ ] Build production assets
 - [ ] Verify database migrations
 - [ ] Test on staging server
+
+## Code Style
+- Follow PEP 8 for Python code
+- Use Dart formatting standards for Flutter
+- Keep functions under 30 lines when possible
