@@ -27,3 +27,6 @@
 - [ ] Run all tests
 - [ ] Update version number
 - [ ] Check environment variables
+- [ ] Build production assets
+- [ ] Verify database migrations
+- [ ] Test on staging server
